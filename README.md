@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/Gozargah/Marzban-docs/master/screenshots/logo-dark.png" width="80" height="80" alt="Marzban"/>
+<img src="https://raw.githubusercontent.com/Gozargah/Marzban/master/app/dashboard/src/assets/logo.svg" width="64" height="64" alt="Marzban"/>
 
 # MarzSetup
 
