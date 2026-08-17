@@ -1,10 +1,15 @@
 <div align="center">
 
+<img src="https://raw.githubusercontent.com/Gozargah/Marzban/master/app/dashboard/public/statics/favicon/apple-touch-icon.png" width="80" height="80" alt="Marzban"/>
+
 # MarzSetup
 
 One-shot Marzban panel installer with Nginx reverse proxy, firewall rules and credential saving.
 
-[![Marzban](https://img.shields.io/badge/marzban-panel-1a1a2e?style=for-the-badge&logo=proxy&logoColor=white)](https://github.com/gozargah/Marzban)
+[![Bash](https://img.shields.io/badge/shell-bash-4EAA25?style=flat-square&logo=gnubash&logoColor=white)](https://www.gnu.org/software/bash/)
+[![Docker](https://img.shields.io/badge/runtime-docker-2496ED?style=flat-square&logo=docker&logoColor=white)](https://www.docker.com/)
+[![Nginx](https://img.shields.io/badge/proxy-nginx-009639?style=flat-square&logo=nginx&logoColor=white)](https://nginx.org/)
+[![Marzban](https://img.shields.io/badge/panel-marzban-1a1a2e?style=flat-square)](https://github.com/gozargah/Marzban)
 
 </div>
 
