@@ -113,7 +113,7 @@ fi
 
 # 5. Nginx
 echo "[5/6] Setting up Nginx ..."
-which nginx &>/dev/null || { apt-get update -qq && apt-get install -y -qq nginx nginx-extras >/dev/null 2>&1; }
+which nginx &>/dev/null || { DEBIAN_FRONTEND=noninteractive apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -y -qq nginx >/dev/null 2>&1; }
 
 cat > /etc/nginx/sites-available/marzban << NGEOF
 server {
@@ -198,7 +198,7 @@ curl -s -X PUT "http://127.0.0.1:${XRAY_PORT}/api/core/config" \
 rm -f /tmp/xray_cfg.json
 
 # 7. Firewall
-apt-get install -y -qq iptables-persistent netfilter-persistent >/dev/null 2>&1 || true
+DEBIAN_FRONTEND=noninteractive apt-get install -y -qq iptables-persistent netfilter-persistent >/dev/null 2>&1 || true
 for P in 5000 5001 5002 5003 "$DASH_PORT"; do
     iptables -C INPUT -p tcp --dport "$P" -j ACCEPT 2>/dev/null || iptables -I INPUT -p tcp --dport "$P" -j ACCEPT
 done
