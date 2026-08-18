@@ -87,7 +87,7 @@ cd /opt/marzban && docker compose down 2>/dev/null; sleep 2 && docker compose up
 echo "[3/6] Waiting for panel ..."
 for i in $(seq 1 20); do
     sleep 3
-    CODE=$(curl -s --max-time 5 -o /dev/null -w '%{http_code}' "http://127.0.0.1:${XRAY_PORT}/" 2>/dev/null)
+    CODE=$(curl -s --max-time 5 -o /dev/null -w '%{http_code}' "http://127.0.0.1:${XRAY_PORT}/" 2>/dev/null) || CODE=000
     [ "$CODE" = "200" ] || [ "$CODE" = "307" ] || [ "$CODE" = "404" ] && break
 done
 
@@ -99,13 +99,14 @@ sleep 2
 # Get token
 TOKEN=$(curl -s -X POST "http://127.0.0.1:${XRAY_PORT}/api/admin/token" \
     -H 'Content-Type: application/x-www-form-urlencoded' \
-    -d "username=${ADMIN_USER}&password=${ADMIN_PASS}" | python3 -c "import sys,json; print(json.load(sys.stdin).get('access_token',''))" 2>/dev/null)
+    -d "username=${ADMIN_USER}&password=${ADMIN_PASS}" 2>/dev/null | python3 -c "import sys,json; print(json.load(sys.stdin).get('access_token',''))" 2>/dev/null) || true
 
 if [ -z "$TOKEN" ]; then
+    echo "Retrying token in 5s..."
     sleep 5
     TOKEN=$(curl -s -X POST "http://127.0.0.1:${XRAY_PORT}/api/admin/token" \
         -H 'Content-Type: application/x-www-form-urlencoded' \
-        -d "username=${ADMIN_USER}&password=${ADMIN_PASS}" | python3 -c "import sys,json; print(json.load(sys.stdin).get('access_token',''))" 2>/dev/null)
+        -d "username=${ADMIN_USER}&password=${ADMIN_PASS}" 2>/dev/null | python3 -c "import sys,json; print(json.load(sys.stdin).get('access_token',''))" 2>/dev/null) || true
 fi
 
 [ -z "$TOKEN" ] && { echo "Failed to get admin token."; exit 1; }
@@ -193,7 +194,7 @@ INEOF
 curl -s -X PUT "http://127.0.0.1:${XRAY_PORT}/api/core/config" \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer ${TOKEN}" \
-    -d @/tmp/xray_cfg.json >/dev/null
+    -d @/tmp/xray_cfg.json >/dev/null 2>&1 || true
 rm -f /tmp/xray_cfg.json
 
 # 7. Firewall
