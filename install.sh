@@ -167,7 +167,7 @@ server {
 NGEOF
 
 ln -sf /etc/nginx/sites-available/marzban /etc/nginx/sites-enabled/marzban
-nginx -t 2>/dev/null && (systemctl reload nginx 2>/dev/null || systemctl restart nginx)
+nginx -t 2>/dev/null && systemctl restart nginx
 
 # 6. Inbounds
 echo "[6/6] Creating inbounds ..."
