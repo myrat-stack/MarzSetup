@@ -114,7 +114,8 @@ fi
 # 5. Nginx
 echo "[5/6] Setting up Nginx ..."
 which nginx &>/dev/null || { DEBIAN_FRONTEND=noninteractive apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -y -qq nginx >/dev/null 2>&1; }
-systemctl enable --now nginx
+systemctl enable nginx
+systemctl start nginx 2>/dev/null || systemctl restart nginx
 
 cat > /etc/nginx/sites-available/marzban << NGEOF
 server {
@@ -166,7 +167,7 @@ server {
 NGEOF
 
 ln -sf /etc/nginx/sites-available/marzban /etc/nginx/sites-enabled/marzban
-nginx -t 2>/dev/null && systemctl reload nginx
+nginx -t 2>/dev/null && (systemctl reload nginx 2>/dev/null || systemctl restart nginx)
 
 # 6. Inbounds
 echo "[6/6] Creating inbounds ..."
