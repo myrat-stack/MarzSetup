@@ -114,6 +114,7 @@ fi
 # 5. Nginx
 echo "[5/6] Setting up Nginx ..."
 which nginx &>/dev/null || { DEBIAN_FRONTEND=noninteractive apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -y -qq nginx >/dev/null 2>&1; }
+systemctl enable --now nginx
 
 cat > /etc/nginx/sites-available/marzban << NGEOF
 server {
